@@ -10,23 +10,25 @@ import UIKit
 class CalculatorButton: UIView {
    
     private(set) var text: String
-    
+     
     var buttonLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
         label.numberOfLines = 1
-        label.font = UIFont.systemFont(ofSize: 12.0)
         label.textColor = .black
+        label.font = UIFont.systemFont(ofSize: 20.0, weight: .bold)
         label.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         label.setContentHuggingPriority(.defaultHigh, for: .vertical)
         return label
     }()
     
-    init(_ text: String) {
+    init(_ text: String, buttonColor: UIColor = .clear) {
         self.text = text
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
+        self.backgroundColor = buttonColor
+        
         customizeButtonView()
     }
     
@@ -36,7 +38,8 @@ class CalculatorButton: UIView {
     
     private func customizeButtonView() {
         self.layer.borderWidth = 1.0
-        self.layer.borderColor = UIColor.orange.cgColor
+        self.layer.borderColor = UIColor.lightGray.cgColor
+        self.layer.cornerRadius = 5.0
         buttonLabel.text = text
         addSubview(buttonLabel)
         addLayoutConstraint()
@@ -44,8 +47,6 @@ class CalculatorButton: UIView {
     
     private func addLayoutConstraint() {
         let constraints = [
-            buttonLabel.widthAnchor.constraint(equalToConstant: 50),
-            buttonLabel.heightAnchor.constraint(equalToConstant: 50),
             buttonLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
             buttonLabel.centerYAnchor.constraint(equalTo: centerYAnchor)
         ]

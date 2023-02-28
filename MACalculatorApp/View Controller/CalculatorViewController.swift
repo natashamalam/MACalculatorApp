@@ -13,9 +13,6 @@ class CalculatorViewController: UIViewController {
         let myCalculator = CalculatorInterface()
         myCalculator.translatesAutoresizingMaskIntoConstraints = false
         myCalculator.clipsToBounds = true
-        myCalculator.layer.borderColor = UIColor.red.cgColor
-        myCalculator.layer.borderWidth = 2.0
-        myCalculator.layer.cornerRadius = 10.0
         return myCalculator
     }()
 
@@ -36,11 +33,12 @@ class CalculatorViewController: UIViewController {
     
     
     private func addLayoutConstraints() {
+        let top = UIScreen.main.bounds.height/2
         let constraints = [
-            calculator.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
+            calculator.topAnchor.constraint(equalTo: view.topAnchor, constant: top),
             calculator.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10),
             calculator.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10),
-            calculator.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100)
+            calculator.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50)
         ]
         NSLayoutConstraint.activate(constraints)
     }

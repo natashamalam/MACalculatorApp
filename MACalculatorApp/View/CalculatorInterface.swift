@@ -13,11 +13,10 @@ class CalculatorInterface: UIView {
     
     let mainStackView: UIStackView = {
         let stackView = UIStackView()
-        stackView.backgroundColor = .green
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
-        stackView.alignment = .center
         stackView.spacing = 10
+        stackView.alignment = .fill
         stackView.distribution = .fillEqually
         return stackView
     }()
@@ -41,7 +40,6 @@ class CalculatorInterface: UIView {
     private func addButtonsRows() {
         for row in 0 ..< viewModel.maximumNumberOfRows() {
             let calculatorRow = addButtons(at: row)
-            calculatorRow.backgroundColor = row == 1 ? UIColor.purple : UIColor.clear
             mainStackView.addArrangedSubview(calculatorRow)
         }
     }
@@ -49,7 +47,9 @@ class CalculatorInterface: UIView {
     private func addButtons(at row: Int) -> UIStackView {
         let rowStackView = setHorizontalStackView()
         for count in 0 ..< viewModel.maximumNumberOfButtonsInRow(row) {
-            let calculatorButton = CalculatorButton(String(describing: count + 1))
+            let data = viewModel.dataForRow(row)
+            let buttonColor = viewModel.buttonColor(at: row)
+            let calculatorButton = CalculatorButton(data[count], buttonColor: buttonColor)
             rowStackView.addArrangedSubview(calculatorButton)
         }
         return rowStackView
@@ -60,7 +60,8 @@ class CalculatorInterface: UIView {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
         stackView.spacing = 10
-        stackView.distribution = .equalSpacing
+        stackView.distribution = .fillEqually
+        stackView.alignment = .fill
         return stackView
     }
     
