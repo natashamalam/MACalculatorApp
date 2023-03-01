@@ -29,5 +29,5 @@ class PresentationViewModel {
         return row % 2 == 0 ? UIColor.lightGray : UIColor.darkGray
     }
     
-    //func someFunc() {}
+    func someFunc() {}
 }
