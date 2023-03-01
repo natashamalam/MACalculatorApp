@@ -28,4 +28,6 @@ class PresentationViewModel {
     func buttonColor(at row: Int) -> UIColor {
         return row % 2 == 0 ? UIColor.lightGray : UIColor.darkGray
     }
+    
+    func someFunc() {}
 }
