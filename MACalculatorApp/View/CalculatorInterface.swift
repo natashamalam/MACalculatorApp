@@ -21,6 +21,17 @@ class CalculatorInterface: UIView {
         return stackView
     }()
     
+    let monitor: UITextField = {
+        let textField = UITextField()
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.backgroundColor = .black
+        textField.layer.borderColor = UIColor.lightGray.cgColor
+        textField.layer.borderWidth = 2.0
+        textField.layer.cornerRadius = 5.0
+        textField.textColor = UIColor.white
+        return textField
+    }()
+    
     init(viewModel: PresentationViewModel = PresentationViewModel()) {
         self.viewModel = viewModel
         super.init(frame: .zero)
@@ -32,7 +43,10 @@ class CalculatorInterface: UIView {
     }
     
     private func configureSubViews() {
+        addSubview(monitor)
         addSubview(mainStackView)
+        monitor.delegate = self
+        monitor.becomeFirstResponder()
         addLayoutConstraints()
         addButtonsRows()
     }
@@ -46,10 +60,10 @@ class CalculatorInterface: UIView {
     
     private func addButtons(at row: Int) -> UIStackView {
         let rowStackView = setHorizontalStackView()
-        for count in 0 ..< viewModel.maximumNumberOfButtonsInRow(row) {
-            let data = viewModel.dataForRow(row)
-            let buttonColor = viewModel.buttonColor(at: row)
-            let calculatorButton = CalculatorButton(data[count], buttonColor: buttonColor)
+        let data = viewModel.dataForRow(row)
+        let buttonColor = viewModel.buttonColor(at: row)
+        for column in 0 ..< viewModel.maximumNumberOfButtonsInRow(row) {
+            let calculatorButton = CalculatorButton(data[column], buttonColor: buttonColor)
             rowStackView.addArrangedSubview(calculatorButton)
         }
         return rowStackView
@@ -67,11 +81,22 @@ class CalculatorInterface: UIView {
     
     private func addLayoutConstraints() {
         let constraints = [
-            mainStackView.topAnchor.constraint(equalTo: topAnchor),
+            monitor.topAnchor.constraint(equalTo: topAnchor),
+            monitor.leftAnchor.constraint(equalTo: leftAnchor),
+            monitor.rightAnchor.constraint(equalTo: rightAnchor),
+            monitor.heightAnchor.constraint(equalToConstant: 60),
+            
+            mainStackView.topAnchor.constraint(equalTo: monitor.bottomAnchor, constant: 10),
             mainStackView.leftAnchor.constraint(equalTo: leftAnchor),
             mainStackView.rightAnchor.constraint(equalTo: rightAnchor),
             mainStackView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ]
         NSLayoutConstraint.activate(constraints)
+    }
+}
+
+extension CalculatorInterface: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        return textField.resignFirstResponder()
     }
 }
